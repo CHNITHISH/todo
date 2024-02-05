@@ -4,15 +4,18 @@
   font-family: 'poppins', sans-serif;
   box-sizing: border-box;
 }
+
 .container{
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(135deg,#2c94d1, #111112);
   padding: 10px;
 }
+
 .to-do {
-  width: 80%;
-  background: linear-gradient(135deg,#cbdbb6, #414148);
+  width: 90%;
+  margin: 0 auto;
+  background: linear-gradient(135deg,#e3efbb, #252224);
   margin: 100px auto 20px;
   padding: 40px 30px 70px;
   border-radius: 50px;
@@ -110,6 +113,7 @@ ul li span:hover{
 }
 input[type="checkbox"] {
   margin-right: 20px; 
+  transform: scale(1.5);
 }
 hr {
   border: none;
@@ -125,14 +129,18 @@ hr {
     flex-direction: column;
 }
 .delete-icon {
-  margin-left: auto;
-  color: #2c94d1;
+  color: #bdd6e4;
   font-size: 14px; 
   text-shadow: #111112;
   position: absolute; 
-    top: 50%; 
-    right: 0; 
-    transform: translateY(-50%);
+  top: 50%; 
+  right: 0; 
+  transform: translateY(-50%);
+  background-color: transparent; 
+  border: none; 
+  cursor: pointer; 
+  outline: none;
+  transform: translateY(-50%);
 }
 li {
   border-bottom: 1px solid #ccc; 
@@ -144,3 +152,14 @@ li {
   border-radius: 7px; 
   margin-bottom: 10px; 
 }
+.edit-icon {
+  margin-left: auto;
+  color: #bdd6e4;
+  font-size: 14px; 
+  text-shadow: #111112;
+  position: absolute; 
+    top: 50%; 
+    right: 40px; 
+    transform: translateY(-50%);
+}
+
