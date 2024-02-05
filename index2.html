@@ -25,28 +25,20 @@
 						<div class="section-heading">
 							<h3>&nbsp;To-Do</h3>
 						</div>
-						
-						<ul id="not-completed-container">
-							<!-- Not completed tasks will be dynamically added here -->
-						</ul>
+						<ul id="not-completed-container"></ul>
 					</div>
 					<div class="column">
 						<div class="section-heading">
 							<h3>Completed</h3>
 						</div>
-						
-						<ul id="completed-container">
-							<!-- Completed tasks will be dynamically added here -->
-						</ul>
+						<ul id="completed-container"></ul>
 					</div>
 					</div>
-				  </div>
-				  
+				  </div>  
         </div>
     </form>
     <div id="output"></div>
 
-    <!-- Firebase JavaScript SDK -->
     <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
     <script>
         let firebaseConfig = {
@@ -63,79 +55,61 @@
 
         let messagesRef = firebase.database().ref('Collected Data');
 
-        // Event listener for form submission
         document.getElementById('todo').addEventListener('submit', submitForm);
 
-        // Function to handle form submission
         function submitForm(e) {
-            e.preventDefault(); // Prevent form from submitting normally
+            e.preventDefault(); 
 
-            // Get the value of the input field
             let Task = getInputVal('Task');
 
-            // Save the data to Firebase
             saveData(Task);
 
-            // Reset the form
             document.getElementById('todo').reset();
         }
 
-        // Function to get the value of an input field by its ID
         function getInputVal(id) {
             return document.getElementById(id).value;
         }
 
-        // Function to save data to Firebase
         function saveData(Task) {
-            // Push the new task data to the 'Collected Data' location in the database
             let newMessageRef = messagesRef.push();
             newMessageRef.set({
                 Task: Task,
-                completed: false // Set the initial completion status to false
+                completed: false 
             });
         }
 
-        // Fetch and display tasks from Firebase
-        // Fetch and display tasks from Firebase
 messagesRef.on('value', function(snapshot) {
     const completedContainer = document.getElementById('completed-container');
     const notCompletedContainer = document.getElementById('not-completed-container');
 
-    completedContainer.innerHTML = ''; // Clear previous completed list
-    notCompletedContainer.innerHTML = ''; // Clear previous not completed list
+    completedContainer.innerHTML = ''; 
+    notCompletedContainer.innerHTML = ''; 
 
     snapshot.forEach(function(childSnapshot) {
         let task = childSnapshot.val().Task;
         let completed = childSnapshot.val().completed;
         let taskId = childSnapshot.key;
-
-        // Create list item for task
         let listItem = document.createElement('li');
         listItem.textContent = task;
-        // Create delete button
-        // Create delete button
 let deleteButton = document.createElement('i');
-deleteButton.className = 'fas fa-trash delete-icon'; // Changed to 'fa-trash'
+deleteButton.className = 'fas fa-trash delete-icon'; 
 deleteButton.addEventListener('click', function() {
-    deleteTask(taskId); // Call deleteTask function when the delete button is clicked
+    deleteTask(taskId);
 });
 
 
-        // Append delete button to list item
         listItem.appendChild(deleteButton);
 
-        // Create checkbox for task completion
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.checked = completed; // Set checkbox state based on completion status
+        checkbox.checked = completed; 
         checkbox.addEventListener('change', function() {
-            updateTaskStatus(taskId, this.checked); // Call updateTaskStatus function on checkbox change
+            updateTaskStatus(taskId, this.checked); 
         });
 
-        // Append checkbox to list item
         listItem.insertBefore(checkbox, listItem.firstChild);
 
-        // Append list item to appropriate container based on completion status
         if (completed) {
             completedContainer.appendChild(listItem);
         } else {
@@ -144,47 +118,39 @@ deleteButton.addEventListener('click', function() {
     });
 });
 
-// Function to update task completion status in Firebase
+
 function updateTaskStatus(taskId, completed) {
     firebase.database().ref('Collected Data/' + taskId).update({
-        completed: completed // Update the 'completed' property in Firebase
+        completed: completed 
     });
 }
 
-// Function to delete task from Firebase
+
 function deleteTask(taskId) {
     firebase.database().ref('Collected Data/' + taskId).remove();
 }
 
-// Event listener for form submission
+
 document.getElementById('todo').addEventListener('submit', submitForm);
 
-// Function to handle form submission
 function submitForm(e) {
-    e.preventDefault(); // Prevent form from submitting normally
+    e.preventDefault(); 
 
-    // Get the value of the input field
     let Task = getInputVal('Task');
 
-    // Save the data to Firebase
     saveData(Task);
 
-    // Reset the form
     document.getElementById('todo').reset();
 }
 
-// Function to get the value of an input field by its ID
 function getInputVal(id) {
     return document.getElementById(id).value;
 }
 
-// Function to save data to Firebase
 function saveData(Task) {
-    // Push the new task data to the 'Collected Data' location in the database
     let newMessageRef = messagesRef.push();
     newMessageRef.set({
         Task: Task,
-        completed: false // Set the initial completion status to false
     });
 	location.reload();
 }
