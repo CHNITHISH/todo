@@ -104,21 +104,21 @@ ul li span:hover{
 .delete-button {
   background-color: #ff5945;
   margin-left: auto;
-  font-size: 10px; /* Reduce the font size of the delete button */
-  padding: 2.5px 5px; /* Adjust padding of the delete button */
+  font-size: 10px; 
+  padding: 2.5px 5px; 
   align-self: flex-end;
 }
 input[type="checkbox"] {
-  margin-right: 20px; /* Add margin between task text and checkbox */
+  margin-right: 20px; 
 }
 hr {
   border: none;
-  border-top: 1px solid #ccc; /* Line separator styling */
-  margin: 20px 0; /* Adjust margin as needed */
+  border-top: 1px solid #ccc; 
+  margin: 20px 0; 
 }
 .section-title {
-  margin-top: 0; /* Reset margin for the title */
-  margin-bottom: 10px; /* Add margin below the title */
+  margin-top: 0; 
+  margin-bottom: 10px;
 }
 .column {
   display: flex;
@@ -127,20 +127,20 @@ hr {
 .delete-icon {
   margin-left: auto;
   color: #2c94d1;
-  font-size: 14px; /* Adjust the size as needed */
+  font-size: 14px; 
   text-shadow: #111112;
-  position: absolute; /* Add this to position the delete icon */
-    top: 50%; /* Add this to vertically center the delete icon */
-    right: 0; /* Add this to align the delete icon to the extreme right */
+  position: absolute; 
+    top: 50%; 
+    right: 0; 
     transform: translateY(-50%);
 }
 li {
-  border-bottom: 1px solid #ccc; /* Add a border below each list item */
+  border-bottom: 1px solid #ccc; 
 }
 .section-heading {
   background: linear-gradient(135deg,#2c94d1, #111112);
-  color: #fff; /* Add a background color */
-  padding: 10px; /* Add padding for spacing */
-  border-radius: 7px; /* Add rounded corners for a box-like appearance */
-  margin-bottom: 10px; /* Add margin bottom for spacing */
+  color: #fff; 
+  padding: 10px; 
+  border-radius: 7px; 
+  margin-bottom: 10px; 
 }
