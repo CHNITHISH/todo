@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Collecting Data</title>
+    <link rel="stylesheet" href="style2.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
+<body>
+    <form class="container" id="todo">
+        <div class="container">
+            <div class="to-do">
+                <h2>To-Do List
+					<img src="icon.png">
+				</h2>
+                <div class="row">
+                    <input type="text" class="todo" id="Task" placeholder="Add your task">
+                    <button onclick="addTask()">Add</button>
+                </div>
+                <div class="column">
+					<div class="column">
+						<div class="section-heading">
+							<h3>&nbsp;To-Do</h3>
+						</div>
+						
+						<ul id="not-completed-container">
+							<!-- Not completed tasks will be dynamically added here -->
+						</ul>
+					</div>
+					<div class="column">
+						<div class="section-heading">
+							<h3>Completed</h3>
+						</div>
+						
+						<ul id="completed-container">
+							<!-- Completed tasks will be dynamically added here -->
+						</ul>
+					</div>
+					</div>
+				  </div>
+				  
+        </div>
+    </form>
+    <div id="output"></div>
+
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
+    <script>
+        let firebaseConfig = {
+            apiKey: "AIzaSyB-6ORNVZWmlptXLXtCaH5Yxg4AcOSVxzY",
+        authDomain: "scratch-2b9b9.firebaseapp.com",
+        databaseURL: "https://scratch-2b9b9-default-rtdb.firebaseio.com",
+        projectId: "scratch-2b9b9",
+        storageBucket: "scratch-2b9b9.appspot.com",
+        messagingSenderId: "181239534707",
+        appId: "1:181239534707:web:915973bcab02c59f71c606"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        let messagesRef = firebase.database().ref('Collected Data');
+
+        // Event listener for form submission
+        document.getElementById('todo').addEventListener('submit', submitForm);
+
+        // Function to handle form submission
+        function submitForm(e) {
+            e.preventDefault(); // Prevent form from submitting normally
+
+            // Get the value of the input field
+            let Task = getInputVal('Task');
+
+            // Save the data to Firebase
+            saveData(Task);
+
+            // Reset the form
+            document.getElementById('todo').reset();
+        }
+
+        // Function to get the value of an input field by its ID
+        function getInputVal(id) {
+            return document.getElementById(id).value;
+        }
+
+        // Function to save data to Firebase
+        function saveData(Task) {
+            // Push the new task data to the 'Collected Data' location in the database
+            let newMessageRef = messagesRef.push();
+            newMessageRef.set({
+                Task: Task,
+                completed: false // Set the initial completion status to false
+            });
+        }
+
+        // Fetch and display tasks from Firebase
+        // Fetch and display tasks from Firebase
+messagesRef.on('value', function(snapshot) {
+    const completedContainer = document.getElementById('completed-container');
+    const notCompletedContainer = document.getElementById('not-completed-container');
+
+    completedContainer.innerHTML = ''; // Clear previous completed list
+    notCompletedContainer.innerHTML = ''; // Clear previous not completed list
+
+    snapshot.forEach(function(childSnapshot) {
+        let task = childSnapshot.val().Task;
+        let completed = childSnapshot.val().completed;
+        let taskId = childSnapshot.key;
+
+        // Create list item for task
+        let listItem = document.createElement('li');
+        listItem.textContent = task;
+        // Create delete button
+        // Create delete button
+let deleteButton = document.createElement('i');
+deleteButton.className = 'fas fa-trash delete-icon'; // Changed to 'fa-trash'
+deleteButton.addEventListener('click', function() {
+    deleteTask(taskId); // Call deleteTask function when the delete button is clicked
+});
+
+
+        // Append delete button to list item
+        listItem.appendChild(deleteButton);
+
+        // Create checkbox for task completion
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = completed; // Set checkbox state based on completion status
+        checkbox.addEventListener('change', function() {
+            updateTaskStatus(taskId, this.checked); // Call updateTaskStatus function on checkbox change
+        });
+
+        // Append checkbox to list item
+        listItem.insertBefore(checkbox, listItem.firstChild);
+
+        // Append list item to appropriate container based on completion status
+        if (completed) {
+            completedContainer.appendChild(listItem);
+        } else {
+            notCompletedContainer.appendChild(listItem);
+        }
+    });
+});
+
+// Function to update task completion status in Firebase
+function updateTaskStatus(taskId, completed) {
+    firebase.database().ref('Collected Data/' + taskId).update({
+        completed: completed // Update the 'completed' property in Firebase
+    });
+}
+
+// Function to delete task from Firebase
+function deleteTask(taskId) {
+    firebase.database().ref('Collected Data/' + taskId).remove();
+}
+
+// Event listener for form submission
+document.getElementById('todo').addEventListener('submit', submitForm);
+
+// Function to handle form submission
+function submitForm(e) {
+    e.preventDefault(); // Prevent form from submitting normally
+
+    // Get the value of the input field
+    let Task = getInputVal('Task');
+
+    // Save the data to Firebase
+    saveData(Task);
+
+    // Reset the form
+    document.getElementById('todo').reset();
+}
+
+// Function to get the value of an input field by its ID
+function getInputVal(id) {
+    return document.getElementById(id).value;
+}
+
+// Function to save data to Firebase
+function saveData(Task) {
+    // Push the new task data to the 'Collected Data' location in the database
+    let newMessageRef = messagesRef.push();
+    newMessageRef.set({
+        Task: Task,
+        completed: false // Set the initial completion status to false
+    });
+	location.reload();
+}
+
+
+
+    </script>
+</body>
+
+</html>
